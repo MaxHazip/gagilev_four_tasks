@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from .models import *
+from django.db.models import Avg, Min, Max, Count
 # Create your views here.
 
-def index(request):
-    pass
 # Задание 1.
 
 # Создайте функцию, которая должна: 
@@ -18,7 +17,14 @@ def index(request):
 #     если книг нет — покажите сообщение: «Нет доступных книг».
      
 # Подсказка: {% empty %} - если нет данных
+# def index(request):
+#     books = Book.objects.filter(is_available=True).order_by('title') 
 
+#     context = {
+#         'books': books,
+#     }
+
+#     return render(request, 'index.html', context)
 
 
 # Задание 2
@@ -37,7 +43,17 @@ def index(request):
 #     если у автора нет книг — напишите: «У этого автора пока нет книг в каталоге».
  
 # Подсказка: Для получения всех книг автора можно обращаться по id Book.objects.filter(author=author_id).
+# def index(request):
+#     author_id = 1
+#     author = Author.objects.get(id=author_id)
+#     author_books = Book.objects.filter(author=author_id).order_by('-publication_year')
 
+#     context = {
+#         'author': author,
+#         'author_books': author_books,
+#     }
+
+#     return render(request, 'index.html', context)
 
 
 # Задание 3
@@ -67,7 +83,22 @@ def index(request):
 # gte- больше чем и равно
 # lt - меньше чем
 # lte - меньше чем и равно
+# def index(request):
+#     books_amount = Book.objects.aggregate(total_books = Count('id'))
+#     price_avg = Book.objects.aggregate(avg = Avg('price'))
+#     max_year = Book.objects.aggregate(max = Max('publication_year'))
+#     min_year = Book.objects.aggregate(min = Min('publication_year'))
+#     author_amount = Author.objects.annotate(books_count = Count('book')).filter(books_count__gt=1)
 
+#     context = {
+#         'books_amount': books_amount['total_books'],
+#         'price_avg': price_avg['avg'],
+#         'max_year': max_year['max'],
+#         'min_year': min_year['min'],
+#         'author_amount': author_amount,
+#     }
+
+#     return render(request, 'index.html', context)
 
 
 # Задание 4
@@ -84,3 +115,12 @@ def index(request):
 #     заголовок: «Дорогие старые книги»,
 #     таблица с колонками: Название, Автор, Год, Цена
 #     если таких книг нет — сообщение: «Не найдено дорогих старых книг».
+def index(request):
+
+    books_list = Book.objects.filter(price__gt=1000).filter(publication_year__lt=1980).order_by('-price')
+
+    context = {
+        'books_list': books_list,
+    }
+
+    return render(request, 'index.html', context)
