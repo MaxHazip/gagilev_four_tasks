@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Библиотека</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<!-- Задание 3 -->
+		<h2>Общая статистика</h2>
+		<p>Всего книг: {{ books_amount }}</p>
+		<p>Средняя цена: {{ price_avg }}</p>
+		<p>Года издания: от {{ min_year }} до {{ max_year }}</p>
+		<h2>Авторы с несколькими книгами</h2>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Имя автора</th>
+					<th>Количество книг</th>
+				</tr>
+			</thead>	
+			{% for authors in author_amount %}
+			<tr>
+				<td>{{ authors.name }}</td>
+				<td>{{ authors.books_count }}</td>
+			</tr>
+			{% empty %}
+			<h2>Таких авторов нет</h2>
+			{% endfor %}
+		</table>
+	</body>
+</html>

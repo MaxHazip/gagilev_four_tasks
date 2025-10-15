@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Библиотека</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<!-- Задание 2 -->
+		<h1>Имя автора {{ author.name }} </h1>
+		<ol>
+			{% for author_book in author_books %}
+			<li>{{author_book.title}} {{author_book.publication_year}} {{author_book.price}}</li>
+			{% empty %}
+			<p>У этого автора пока нет книг в каталоге</p>
+			{% endfor %}
+		</ol>
+	</body>
+</html>
